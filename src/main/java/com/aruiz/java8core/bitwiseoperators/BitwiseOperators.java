@@ -16,11 +16,8 @@ public class BitwiseOperators {
 	interface DisplaySummary{
 		void display(int a, int b, int c);
 	}
-		
-	private DisplaySummary ds;
 	
 	public static void main(String ...args) {
-		//BitwiseOperators bwo = new BitwiseOperators();
 		DisplaySummary ds;
 		
 		BinaryOperation andOperation = (a,b) -> a&b;
@@ -47,8 +44,27 @@ public class BitwiseOperators {
 		ds = (a,b,c) -> System.out.printf("a=%d b=%d a-binary=%s b-binary=%s result=%d result-binary=%s\n", 
 				a, b, Integer.toBinaryString(a), Integer.toBinaryString(b),c, Integer.toBinaryString(c));
 		ds.display(op1, op2, xor);
+		System.out.println("xor operation ...facts");
+		System.out.println("xor operation ..with itself");
+		xor = xorOperation.execute(op1, op1);
+		ds.display(op1, op1, xor);
+		System.out.println("xor an odd number of times... ");
+		int temp = xorOperation.execute(xor, op1);
+		ds.display(xor, op1, temp);
 		
+		System.out.println("xor an even number of times... ");
+		xor = xorOperation.execute(temp, op1);
+		ds.display(temp, op1, xor);
+		
+		System.out.println("xor with zero...");
+		xor = xorOperation.execute(op1, 0);
+		ds.display(op1, 0, xor);
+		
+		System.out.println("xor with all ones...");
+		xor = xorOperation.execute(op1, 0xffff);
+		ds.display(op1, 0xff, xor);
 		System.out.println();
+		
 		System.out.println("======== UNARY OPERATIONS =======");
 		//negate
 		System.out.println("negate operation");

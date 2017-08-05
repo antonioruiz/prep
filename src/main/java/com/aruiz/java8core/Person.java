@@ -56,8 +56,7 @@ public class Person {
 
 	public static List<Person> createRoster() {
 
-		ArrayList<Person> result = new ArrayList<>();
-		LocalDate ld;
+		ArrayList<Person> result = new ArrayList<Person>();
 		result.add(new Person("joe", Year.parse("1980").atMonth(5).atDay(10), Sex.MALE, "joe@email.com"));
 		result.add(new Person("natalie", Year.parse("2000").atMonth(2).atDay(14), Sex.FEMALE, "nat@email.net"));
 		result.add(new Person("paul", Year.parse("1970").atMonth(8).atDay(7), Sex.FEMALE, "paul@email.net"));
