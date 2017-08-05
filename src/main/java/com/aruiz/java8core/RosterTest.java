@@ -5,6 +5,7 @@ import java.util.function.Consumer;
 import java.util.function.Function;
 import java.util.Comparator;
 import java.util.function.Predicate;
+import java.util.function.Supplier;
 import java.lang.Iterable;
 import java.time.chrono.IsoChronology;
 
@@ -92,7 +93,7 @@ public class RosterTest {
 	}
 
 	public static void main(String... args) {
-
+		Supplier<Person> supplier;
 		List<Person> roster = Person.createRoster();
 
 		for (Person p : roster) {
