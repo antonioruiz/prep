@@ -65,6 +65,28 @@ public class BitwiseOperators {
 		ds.display(op1, 0xff, xor);
 		System.out.println();
 		
+		System.out.println("xor with pairs but one...");
+		xor = xorOperation.execute(10,20 );
+		ds.display(10, 20, xor);
+		temp = xorOperation.execute(xor, 30);
+		ds.display(xor, 30, temp);
+		xor = xorOperation.execute(temp, 40);
+		ds.display(temp, 40, xor);
+		temp = xorOperation.execute(xor, 30);
+		ds.display(xor, 30, temp);
+		xor = xorOperation.execute(temp, 20);
+		ds.display(temp, 20, xor);
+		temp = xorOperation.execute(xor, 40);
+		ds.display(xor, 40, temp);
+		System.out.println();
+		
+		System.out.println("swapping values of a and b wihtout a third tmp variable");
+		System.out.printf("original values a=%d b=%d", op1, op2);
+		op1 = xorOperation.execute(op1, op2);
+		op2 = xorOperation.execute(op2, op1);
+		op1 = xorOperation.execute(op2, op1);
+		System.out.printf("\nafter swap values a=%d b=%d", op1, op2);
+		System.out.println();
 		System.out.println("======== UNARY OPERATIONS =======");
 		//negate
 		System.out.println("negate operation");
