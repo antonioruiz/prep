@@ -25,6 +25,7 @@ public class StringManipulation {
 		System.out.print("enter string to reverse:");
 		String lineToReverse =readLine.nextLine();
 		System.out.println("Reversed: " + new StringManipulation().reverse(lineToReverse));
+		
 	}
 
 }
