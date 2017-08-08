@@ -1,4 +1,4 @@
-package com.aruiz.java8.core.streams;
+package com.aruiz.java8core.streams;
 
 import java.io.IOException;
 import java.nio.file.Files;
