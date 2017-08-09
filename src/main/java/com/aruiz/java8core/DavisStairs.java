@@ -31,7 +31,7 @@ public class DavisStairs {
 	private static int calculateResultsAndDisplay(Map<Integer, Integer> components) {
 		int possibleSteps =0;
 		for (Entry<Integer, Integer> entry : components.entrySet()) {
-			System.out.printf("Calculating %d * the value of %d", entry.getKey(), entry.getValue());
+			//System.out.printf("Calculating %d * the value of %d", entry.getKey(), entry.getValue());
 			System.out.println();
 			Integer tempResult = entry.getValue() * (findPossibleways(entry.getKey()));
 			possibleSteps += tempResult;
