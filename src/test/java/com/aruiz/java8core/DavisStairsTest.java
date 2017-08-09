@@ -24,7 +24,7 @@ public class DavisStairsTest {
 	
 	@Test
 	public void breakIntoLargestPossibleComponents(){
-		Map<Integer, Integer> calculated = DavisStairs.breakIntoLargestPossibleComponents(5);
+		Map<Integer, Integer> calculated = DavisStairs.breakIntoLargestPossibleComponents(5, 3);
 		//break 5 into (3,2), that is 1 three, 1 Two a 0 ones
 		assertEquals(3,calculated.size());
 		assertEquals(1, calculated.get(3).intValue());
@@ -35,7 +35,7 @@ public class DavisStairsTest {
 				+ 2*calculated.get(2).intValue()
 				+ 1*calculated.get(1).intValue());
 		
-		calculated = DavisStairs.breakIntoLargestPossibleComponents(7);
+		calculated = DavisStairs.breakIntoLargestPossibleComponents(7, 3);
 		//break 7 into (3,3,1), that is 1 three, 1 Two a 0 ones
 		assertEquals(3,calculated.size());
 		assertEquals(calculated.get(3).intValue(), 2);
