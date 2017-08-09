@@ -1,31 +1,34 @@
 package com.aruiz.java8core;
 
-import java.util.Scanner;
-
 public class StringManipulation {
 
-	
-	private String reverse(String s) {
-		int numWords = s.split(" ").length;
-		if(numWords==2 || numWords==1){
-			//base case
-			if(numWords == 1){
-				return s;
-			}
-			return (s.split(" ")[1] + " " + s.split(" ")[0]);
+	public static String stringRev(String s){
+		int lengthOfPreviousWord=0;
+		for(int i=1; i<s.split(" ").length;i++){
+			int indexOfLastWord = beginingOfLastWord(s);
+			int secondHalf = i==1?0:s.substring(indexOfLastWord).length();
+			s = s.substring(indexOfLastWord, s.length() + lengthOfPreviousWord) + " " + s.substring(secondHalf, indexOfLastWord).trim();
+			System.out.println("iterating: "+s);
+			lengthOfPreviousWord += s.substring(indexOfLastWord, s.length()).length();
+			
 		}
-		int indexOfLastSeparator = s.lastIndexOf(" ");	
-		return s.substring(indexOfLastSeparator, s.length()) + " "+reverse(s.substring(0, indexOfLastSeparator));
 		
+		return s;
+	}
+	
+	private static int beginingOfLastWord(String s) {
+		
+		int j = s.length()-1;
+		while(s.charAt(j)!= ' '){
+			j--;
+		}
+		return j;
 	}
 
 	public static void main(String[] args) {
-
-		Scanner readLine = new Scanner(System.in);
-		System.out.print("enter string to reverse:");
-		String lineToReverse =readLine.nextLine();
-		System.out.println("Reversed: " + new StringManipulation().reverse(lineToReverse));
-		
+		// TODO Auto-generated method stub
+		System.out.println(stringRev("The Sky is blue"));
 	}
 
 }
+
