@@ -6,21 +6,39 @@ import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Optional;
+import java.util.Scanner;
 import java.util.TreeMap;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 public class DavisStairs {
 
-	public static int findPossibleways(int n) {
+	public static int findPossiblewaysNonRec(int n) {
 
-		List<String> components = new ArrayList<String>();
-		Map<Integer, Integer> largestComponents = breakIntoLargestPossibleComponents(n, 3);
+		List<String> listOfComponentsAsStrings = new ArrayList<String>();
+		List<Map<Integer, Integer>> listOfComponents = new ArrayList<Map<Integer, Integer>>();
+		Map<Integer, Integer> largestComponents = breakIntoLargestPossibleComponents(n);
+		listOfComponents.add(largestComponents);
 		
-		List<String> initialFeed = calculateCombos(largestComponents);
-		components.addAll(initialFeed);
+		String componentsAsString= calculateComponentsAsString(largestComponents);
+		listOfComponentsAsStrings.add(componentsAsString);
+		System.out.println("Initially list of components as string: " +listOfComponentsAsStrings);
 		for(Entry<Integer, Integer> e:largestComponents.entrySet()){
-			System.out.println("entry: " + e.getKey() +":"+e.getValue());
+			Map<Integer,Integer> subLargestComponents;
+			int m= e.getKey();
+			int NumberOfTimes = e.getValue();
+			System.out.println(componentsAsString + " breaking:" + m);
+			int smallerComponent=m;
+			while(m>0 && smallerComponent>1 ){
+				smallerComponent--;
+				subLargestComponents = breakIntoLargestPossibleComponents(m, smallerComponent);
+				//update subLargestComponents to contain previous components
+				//subLargestComponents.put(m, subLargestComponents.get(m)==null?1:subLargestComponents.get(m));
+				listOfComponents.add(subLargestComponents);
+				componentsAsString =calculateComponentsAsString(subLargestComponents);
+				listOfComponentsAsStrings.add(componentsAsString);
+				System.out.println("smaller subcomponent: " + componentsAsString);
+			}
 		}
 		//from now on...substract and keep going
 		/*
@@ -31,30 +49,37 @@ public class DavisStairs {
 		}
 */
 		
-		System.out.println("components: " + components);
-		Optional<String> optConcat = components.stream()
-		.reduce((a,b)-> b.concat("+").concat(a));
-		System.out.println("consolidated components: " + optConcat.get());
-		
-		return components.size();
+		System.out.println("components: " + listOfComponentsAsStrings);
+		System.out.println("String format: ");
+		//displayComponents(ListOfComponentsAsStrings);
+		return listOfComponentsAsStrings.size();
 	}
 
-	private static List<String> calculateCombos(Map<Integer, Integer> componentsAsMap) {
-		
-		List<String> components = componentsAsMap.entrySet().stream()
+
+	static String calculateComponentsAsString(Map<Integer, Integer> componentsAsMap) {
+		Optional<String> components = componentsAsMap.entrySet().stream()
 			.map(e -> String.join("+", Collections.nCopies(e.getValue(), String.valueOf(e.getKey()))))
-			.collect(Collectors.toList());
-		
-		return components;
+			.reduce((a, b)->b.concat("+").concat(a));
+		return components.get();
 	}
 
-	static Map<Integer, Integer> breakIntoLargestPossibleComponents(int n, int initValue) {
+	static Map<Integer, Integer> breakIntoLargestPossibleComponents(int n, int initValue){
+		int newNumberToBreak = n- initValue;
+		
+		Map<Integer, Integer> local =breakIntoLargestPossibleComponents(newNumberToBreak);
+		if(local.get(initValue%3)==null){
+			local.put(initValue%3, 1);
+		}else{
+			local.put(initValue%3, local.get(initValue%3)+1);
+		}
+		return local;
+	}
 
-		int threes = n / 3;
+	static Map<Integer, Integer> breakIntoLargestPossibleComponents(int n) {
+	
+		int threes = n/ 3;
 		int twos = (n % 3) / 2;
 		int ones = n - (3 * threes + 2 * twos);
-		//System.out.printf("[%d ,%d,%d]",threes, twos, ones);
-		//System.out.println();
 		Map<Integer, Integer> rep = new TreeMap<Integer, Integer>();
 		
 		if(threes>0){
@@ -70,19 +95,44 @@ public class DavisStairs {
 		return rep;
 	}
 
+	static void findPossibleWays(int n){
+		List<String>
+		if(n==1){
+			
+			
+		}
+		
+		//return n;
+	}
+	
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
 		//System.out.println("2:" + findPossibleways(2));
+		//System.out.println("2: " + findPossibleways(2));
 		//System.out.println("3: " + findPossibleways(3));
 		//System.out.println("4: " + findPossibleways(4));
 		//System.out.println("5: " + findPossibleways(5));
 		// System.out.println("6:" + findPossibleways(6));
-		//System.out.println("7:"  + findPossibleways(7));
+		//System.out.pr
+		//System.out.println("7:"  + findPossibleWays(7));
 		//System.out.println("8:" + findPossibleways(8));
 		//System.out.println("10:" + findPossibleways(10));
 		//System.out.println("11:" + findPossibleways(11));
 		//System.out.println("12:" + findPossibleways(12));
 		//System.out.println("13:" + findPossibleways(13));
+        System.out.println("enter the number of calculations: ");
+        Scanner in = new Scanner(System.in);
+        int s = in.nextInt();
+        
+        
+        for(int a0 = 0; a0 < s; a0++){
+           System.out.println("enter value of number of stairs:");
+           int n = in.nextInt();
+           //System.out.println(findPossibleways(n));
+           findPossibleWays(n);
+        }
+        
+        
 	}
 
 }
