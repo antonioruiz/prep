@@ -4,6 +4,8 @@ import java.util.Collection;
 import java.util.Iterator;
 import java.util.NoSuchElementException;
 
+import com.ruiz.prep.datastructures.model.Node;
+
 public class SingleLinkedList<E> extends AbstractSequentialList<E> {
 
 	Node<E> head;
@@ -24,6 +26,9 @@ public class SingleLinkedList<E> extends AbstractSequentialList<E> {
 		}
 	}
 
+	/**
+	 * addd element value at the end of the list
+	 */
 	@Override
 	public boolean add(E value) {
 		// empty list
@@ -32,10 +37,10 @@ public class SingleLinkedList<E> extends AbstractSequentialList<E> {
 			size = 1;
 		} else {
 			Node<E> current = head;
-			while (current.next != null) {
-				current = current.next;
+			while (current.getNext() != null) {
+				current = current.getNext();
 			}
-			current.next = new Node<E>(value);
+			current.setNext(new Node<E>(value));
 			size++;
 		}
 		return true;
@@ -54,15 +59,15 @@ public class SingleLinkedList<E> extends AbstractSequentialList<E> {
 		Node<E> newNode = new Node<E>(value);
 		if(index == 0){
 			//beginning of list
-			newNode.next = head;
+			newNode.setNext(head);
 			head = newNode;
 			size++;
 			return;
 		}
 		//position cursor to place of insertion
 		Node<E> previousToCurrent = getNodeAt(index-1);
-		newNode.next = previousToCurrent.next;
-		previousToCurrent.next = newNode;
+		newNode.setNext(previousToCurrent.getNext() );
+		previousToCurrent.setNext(newNode);
 		size++;
 	}
 	
@@ -73,7 +78,7 @@ public class SingleLinkedList<E> extends AbstractSequentialList<E> {
 		if(index<0 || index >= size()) {
 			throw new IndexOutOfBoundsException();
 		}
-		return getNodeAt(index).data;
+		return getNodeAt(index).getData();
 	}
 
 	public void remove(E value) {
@@ -90,32 +95,109 @@ public class SingleLinkedList<E> extends AbstractSequentialList<E> {
 	}
 
 	public boolean contains(Object o) {
-		// TODO Auto-generated method stub
-		return false;
+		if(size==0) {
+			return false;
+		}
+		
+		Class<E> type = null;
+		Node<E> current;
+		boolean result = false;
+		for(current= head;current!=null;current=current.getNext()) {
+			E e = current.getData();
+			if(e==null) { 
+				if(o==null) {
+					result=true;
+					break;
+				}else {
+					continue;
+				}
+			}
+			if(e.equals(o)) {
+				result = true;
+				break;
+			}
+		}
+		
+		return result;
 	}
 
 	public void clear() {
-		// TODO Auto-generated method stub
-
+		head = null;
+		size =0;
 	}
 
 	public Iterator<E> iterator() {
-		// TODO Auto-generated method stub
-		return null;
+
+		Iterator<E> it = new Iterator<E>() {
+			Node<E> currentNode = head;
+			Node<E> previousNode = null;
+			E currentValue = null;
+			public boolean hasNext() {
+				if(size==0) {
+					return false;
+				}
+				boolean result = (currentNode !=null && currentNode.getData()!=null); 
+				return result;
+			}
+			public E next() {
+				if(!hasNext()) {
+					throw new NoSuchElementException();
+				}
+				E currentValue = currentNode.getData();
+				previousNode = currentNode;
+				currentNode = currentNode.getNext();
+				return currentValue;
+			}
+			public void remove() {
+				if(previousNode == head) {
+					head= previousNode.getNext();
+					//current = head;
+					previousNode = null;
+					size--;
+					return;
+				}
+				//now previous is next to the node we want to remove
+				Node<E> tmp = head;
+				while(tmp.getNext()!= previousNode) {
+					tmp = tmp.getNext();
+				}
+				previousNode = tmp;
+				previousNode.setNext(currentNode);
+				size--;
+				tmp = null;
+				return;
+				
+			}
+		};
+		return it;
 	}
 
 	public E remove(int index) {
-		// TODO Auto-generated method stub
-		return null;
+		
+		E result = null;
+		if(index>=size || index<0) {
+			throw new IndexOutOfBoundsException();
+		}
+		
+		Node<E> temp = getNodeAt(index);
+		Iterator<E> it = iterator();
+		while(it.hasNext()) {
+			E e = it.next();
+			if(e.equals(temp.getData())) {
+				result = e;
+				it.remove();
+				break;
+			}
+		}
+		
+		return result;
 	}
 
 	public Object[] toArray() {
-		// TODO Auto-generated method stub
 		return null;
 	}
 
 	public <T> T[] toArray(T[] a) {
-		// TODO Auto-generated method stub
 		return null;
 	}
 
@@ -123,9 +205,25 @@ public class SingleLinkedList<E> extends AbstractSequentialList<E> {
 		Node<E> current = head;
 		int i=0;
 		while(i < index){
-			current = current.next;
+			current = current.getNext();
 			i++;
 		}
 		return current;
 	}
+
+	@Override
+	public String toString() {
+		E e = null;
+		StringBuilder sb = new StringBuilder();
+		Iterator<E> it = iterator();
+		while(it.hasNext()) {
+			sb.append(it.next());
+			sb.append(", ");
+		}
+		sb =sb.length()>0?sb.deleteCharAt(sb.length()-2):sb;
+		String temp = "["+sb.toString().trim()+"]";
+		
+		return temp;
+	}
+	
 }

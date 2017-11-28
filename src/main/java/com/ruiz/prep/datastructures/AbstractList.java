@@ -28,15 +28,13 @@ public abstract class AbstractList<E> implements List<E> {
 	public abstract boolean isEmpty();
 
 	public boolean contains(Object o) {
-		// TODO Auto-generated method stub
 		AbstractSequentialList<E> a;
 		ArrayList<E> al;
 		return false;
 	}
 
 	public void clear() {
-		// TODO Auto-generated method stub
-		
+		throw new UnsupportedOperationException();
 	}
 
 	public Iterator<E> iterator() {
